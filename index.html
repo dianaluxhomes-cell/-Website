@@ -695,25 +695,6 @@ upd();
 (function(){
   const fan=document.querySelector('.fan'); if(!fan) return;
   const figs=[...fan.children];
-  function deal(){
-    const fr=fan.getBoundingClientRect(), cx=fr.left+fr.width/2;
-    figs.forEach((f,i)=>{
-      const base=getComputedStyle(f).transform; f.dataset.base=base==='none'?'':base;
-      const r=f.getBoundingClientRect(); const dx=cx-(r.left+r.width/2);
-      f.style.setProperty('transition','none','important');
-      f.style.setProperty('transform',`translateX(${dx}px) rotate(${(i-figs.length/2)*2}deg) scale(.92)`,'important');
-    });
-    fan.offsetWidth;
-    figs.forEach((f,i)=>{
-      f.style.setProperty('transition',`transform .9s cubic-bezier(.2,.8,.2,1) ${i*0.08+0.15}s`,'important');
-      f.style.setProperty('transform',f.dataset.base||'none','important');
-    });
-    setTimeout(()=>figs.forEach(f=>{f.style.removeProperty('transform');f.style.removeProperty('transition')}),2200);
-  }
-  if('IntersectionObserver' in window){
-    const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();deal()}},{threshold:.3});
-    io.observe(fan);
-  } else deal();
   const lb=document.getElementById('lb'), lbi=lb.querySelector('img');
   figs.filter(f=>!f.classList.contains('grp')).forEach(f=>f.addEventListener('click',()=>{lbi.src=f.querySelector('img').src;lb.classList.add('on');lb.setAttribute('aria-hidden','false')}));
   function close(){lb.classList.remove('on');lb.setAttribute('aria-hidden','true')}
